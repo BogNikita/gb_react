@@ -1,29 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDom from 'react-dom';
 import Message from './Message.jsx';
+import MessageFiled from './MessageField.jsx';
 
 
-const App = (props) => {
-    let arr = [];
-
-    const MessageTest = (props) => {
-        return props.arr.map((item, index) => <Message key={index} text={item} />)
-    }
-
-
-    const click = e => {
-        arr.push('test');
-        ReactDom.render(
-            <MessageTest arr = { arr } />,
-            document.getElementById('root1')
-        )
+const App = (props) => {;
+    const divStyle = {
+        maxWidth: '900px',
+        margin: '0 auto',
     };
 
-    
+   
 
-return( <main>
-        <button onClick={click}>test</button>
-        <ul id="root1"></ul>
+
+return( <main style={divStyle}>
+            <MessageFiled/>
         </main>)
 };
 
