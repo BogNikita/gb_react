@@ -1,0 +1,17 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 0.4fr 1.5fr 1fr;
+    grid-template-rows: 0.2fr 1.8fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "header header header"
+      "chatlist message-field message-field"
+      ". . .";
+    padding: 5px;
+  }
+  .header { grid-area: header; }
+  .chat-list { grid-area: chatlist; }
+  .message-field { 
+    grid-area: message-field;
+    align-self: flex-end;
+    }
