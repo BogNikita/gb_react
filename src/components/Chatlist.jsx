@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,20 +8,23 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        border: '1px solid #ccc',
-        
+
     },
     title: {
-      margin: theme.spacing(4, 0, 2),
+      margin: theme.spacing(0, 1, 2, 0),
     },
   }));
 
 
-const ChatList = (props) => {
+const ChatList = ({state, createNewChat}) => {
+
+    
     const classes = useStyles();
     const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -39,21 +43,27 @@ const ChatList = (props) => {
                     <List component="nav"
                         aria-labelledby="nested-list-subheader"
                         className={classes.root}>
-                    {[0,1,2].map(item => {return (
-                        <ListItem button
-                            key = {item}
-                            selected={selectedIndex === item}
-                            onClick={(event) => handleListItemClick(event, item)}>
-                            <ListItemAvatar>
-                                <Avatar>
-                                <AccountCircleIcon/>
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={'Bot:' + item}
-                            />
-                        </ListItem>
+                    {Object.keys(state.chats).map(item => {return (
+                        <Link to={`/chat/${item}/`} key = {item} style={{textDecoration: 'none', color: 'inherit'}}>
+                            <ListItem button
+                                selected={selectedIndex === item}
+                                onClick={(event) => handleListItemClick(event, item)}>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                    <AccountCircleIcon/>
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={'Bot ' + item}
+                                />
+                            </ListItem>
+                        </Link>
                     )})}
+                    <div style={{display: 'flex', justifyContent: 'center', marginTop: 5}}>
+                        <Fab color="inherit" aria-label="add" size="small" onClick={createNewChat}>
+                            <AddIcon />
+                        </Fab>
+                    </div>
                     </List>
                 </div>
     </div>

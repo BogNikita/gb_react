@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-
-import Layout from './components/Layout.jsx';
+import {BrowserRouter} from 'react-router-dom';
+import Router from './components/Router.jsx';
 import './style/message.css';
-import './style/grid-container.css';
+
 
 ReactDom.render(
-    <Layout/>,
+    <BrowserRouter>
+        <Router/>
+    </BrowserRouter>,
+    
 
     document.getElementById('root')
 );

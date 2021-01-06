@@ -1,13 +1,13 @@
 import React from 'react';
 
  const Message = ({text, author}) => <div className='message' 
-    style={ { alignSelf: author === 'Robot' 
+    style={ { alignSelf: author === 'bot' 
     ?'flex-start'
     : 'flex-end' } }
     >
         <div>{text}</div>
         <div style={{fontSize: '12px', 
-        alignSelf: author === 'Robot' 
+        alignSelf: author === 'bot' 
         ?'flex-start'
         :'flex-end'}}>
             <i>{author}</i>
@@ -15,3 +15,5 @@ import React from 'react';
     </div>
     
  export default Message;
+
+    
