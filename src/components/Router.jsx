@@ -7,7 +7,7 @@ const Router = () => {
     return (
         <Switch>
             <Route exact path='/' component={ Layout } />
-            <Route exact path='/chat/:chatId' render={ (obj) =>
+            <Route path='/chat/:chatId' render={ (obj) =>
                 <Layout chatId={ obj.match.params.chatId } /> } />
             <Route exact path='/profile/:chatId' render={ (obj) =>
                 <Layout chatId={ obj.match.params.chatId } />} />

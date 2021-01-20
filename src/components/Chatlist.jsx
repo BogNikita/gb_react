@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import { addChat } from './store/actions/chats';
+import { connect } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-const ChatList = ({state, createNewChat}) => {
+const ChatList = (props) => {
 
     
     const classes = useStyles();
@@ -43,7 +45,7 @@ const ChatList = ({state, createNewChat}) => {
                     <List component="nav"
                         aria-labelledby="nested-list-subheader"
                         className={classes.root}>
-                    {Object.keys(state.chats).map(item => {return (
+                    {Object.keys(props.chats).map(item => {return (
                         <Link to={`/chat/${item}/`} key = {item} style={{textDecoration: 'none', color: 'inherit'}}>
                             <ListItem button
                                 selected={selectedIndex === item}
@@ -60,7 +62,7 @@ const ChatList = ({state, createNewChat}) => {
                         </Link>
                     )})}
                     <div style={{display: 'flex', justifyContent: 'center', marginTop: 5}}>
-                        <Fab color="inherit" aria-label="add" size="small" onClick={createNewChat}>
+                        <Fab color="inherit" aria-label="add" size="small" onClick={props.addChat}>
                             <AddIcon />
                         </Fab>
                     </div>
@@ -68,6 +70,19 @@ const ChatList = ({state, createNewChat}) => {
                 </div>
     </div>
     )
-}
+};
 
-export default ChatList;
+ function mapStateToProps(state) {
+    return {
+        chats: state.chatReducer.chats,
+    };
+  };
+  
+  function mapDispatchToProps(dispatch) {
+    return {
+      addChat: () => dispatch(addChat())
+    };
+  };
+ 
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatList);
