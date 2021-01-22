@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import Header from './Header.jsx';
 import MessageFiled from './MessageField.jsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -25,50 +25,45 @@ const Layout = (props) => {
         messages: {
             1: { text: "Привет!", author: 'bot' },
             2: { text: "Здравствуйте!", author: 'bot' }
-        },
-        text: ''
+        }
     };
 
     const path = document.location.pathname;
 
-    const [newState, setState] = useState(state);
+    const [stateMessages, setMessages] = useState(state.messages);
+    
+    const sendMessage = (message, author) => {
+        if (message.trim().length > 0 || author === 'bot') {
+            // const messageId = Object.keys(stateMessages).length + 1;
+            const messageId = (Date.now());
 
-    const sendMessage = (text, author) => {
-        if (text.trim().length > 0 || author === 'bot') {
-            const { messages } = newState;
-            const { chatId } = props;
-
-            const messageId = Object.keys(messages).length + 1;
-            setState({...newState,
-                messages: {...messages,
-                    [messageId]: {text, author}},
-            });
-            props.sendMessage(messageId, text, author, chatId);
+               setMessages((prev) => {
+                    return {...prev,
+                        [messageId]: {text: message, author}}
+                    });
+                props.sendMessage(messageId, message, author, chatId);
         };
     };
 
-    const handleChange = (event) => {
-        setState({...newState, [event.target.name]: event.target.value });
-    };
-
     useEffect(() => {
-        if (Object.values(newState.messages)[Object.values(newState.messages).length - 1].author === 'User') {
+        if (Object.values(stateMessages)[Object.values(stateMessages).length - 1].author === 'User') {
             setTimeout(() => {
-                sendMessage('Не приставай ко мне, я робот!', 'bot')},
-            1000);
+                sendMessage('Не приставай ко мне, я робот!', 'bot')},1000)
         }
-    }, [Object.values(newState.messages).length]);
-
+        
+    }, [Object.values(stateMessages)[Object.values(stateMessages).length - 1].author !== 'bot']);
 
     return( 
     <div style={divStyle}>
      <CssBaseline />
      <Container style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
         <Link to={`/profile/${chatId}/`} style={{width: '100%', textDecoration: 'none', color: 'inherit'}}>
-            <Header name={chatId}/>
+            <Header name={props.state.chats[chatId].title}/>
         </Link>
         <ChatList/>
-        {path === `/profile/${chatId}/` ? <Profile name={chatId}/> : <MessageFiled chatId={chatId} sendMessage={sendMessage} handleChange={handleChange} text={newState.text} messages={newState.messages}/>}
+        {path === `/profile/${chatId}/` 
+        ? <Profile chatId={chatId} name={props.state.chats[chatId].title}/> 
+        : <MessageFiled chatId={chatId} sendMessage={sendMessage} messages={stateMessages}/>}
      </Container>
     </div>
     )
@@ -86,4 +81,4 @@ function mapDispatchToProps(dispatch) {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));

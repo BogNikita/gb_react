@@ -1,4 +1,4 @@
-import { ADD_CHAT, SEND_MESSAGE } from "../actions/actionTypes";
+import { ADD_CHAT, SEND_MESSAGE, CHANGE_TITLE } from "../actions/actionTypes";
 
 const initialState = {
     chats: {
@@ -25,7 +25,12 @@ export default function chatReducer(state = initialState, action) {
                 [chatsId]: {title: `Чат ${chatsId}`, messageList: []}
                 }
         });
-    
+        case CHANGE_TITLE:
+            return({...state,
+                chats: {...state.chats,
+                    [action.chatId]: {title: action.title, messageList: []}
+                    }
+                })
         default:
             return state
     }

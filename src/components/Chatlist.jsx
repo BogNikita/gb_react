@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ChatList = (props) => {
-
     
     const classes = useStyles();
     const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -56,7 +55,7 @@ const ChatList = (props) => {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={'Bot ' + item}
+                                    primary={props.chats[item].title}
                                 />
                             </ListItem>
                         </Link>

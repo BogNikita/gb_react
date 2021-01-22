@@ -26,27 +26,35 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const MessageFiled = (props) => {
+    const state = {
+        text: ''
+    };
+    const [stateText, setText] = useState(state.text);
 
     const classes = useStyles();
 
+    const handleChange = (event) => {
+        setText((prev) => ({...prev, [event.target.name]: event.target.value }));
+    };
+
     const pressKey = (e) => {
         if (!e.shiftKey) {
-            props.sendMessage(props.text, 'User')
+            props.sendMessage(stateText.text, 'User')
             e.target.value = ''
         }
         
     };
 
     const submitMessage = (e) => {
-        e.preventDefault()
-        props.sendMessage(props.text, 'User');
+        e.preventDefault();
+        props.sendMessage(stateText.text, 'User');
         e.target.reset()
     };   
     
     const messageElements = props.state.chats[props.chatId].messageList.map((messageId, index) => {
         return (<Message 
             key={index} 
-            text ={ props.messages[messageId].text }
+            text ={ props.messages[messageId].text || ''}
             author={ props.messages[messageId].author }
             />)})
 
@@ -57,7 +65,7 @@ const MessageFiled = (props) => {
             </div>
             <form className={classes.root} noValidate autoComplete="off" 
                 onSubmit={ e => submitMessage(e)} 
-                onChange={ e => props.handleChange(e)}
+                onChange={ e => handleChange(e)}
                 onKeyUp={e => e.key === 'Enter' ? pressKey(e) : null}>
                 <div style={{display: 'flex', marginTop: '10px'}}>
                     <TextField
