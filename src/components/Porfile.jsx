@@ -24,7 +24,7 @@ const Profile = (props) => {
     const changeTitleHandler = (e) => {
         const title = e.target.value;
         props.changeTitle(title, props.chatId)
-    }
+    };
 
     return (
         <div style={{width: '60%', background: 'rgb(207, 232, 252)', minHeight: '90vh', display: 'flex', flexDirection: 'column'}}>
@@ -36,7 +36,7 @@ const Profile = (props) => {
                     id="filled-full-width"
                     label="First name"
                     style={{ margin: 20 }}
-                    placeholder={props.name}
+                    placeholder={props.state[props.chatId].title}
                     fullWidth
                     margin="normal"
                     InputLabelProps={{
@@ -76,10 +76,17 @@ const Profile = (props) => {
     )
 };
 
+function mapStateToProps(state) {
+    return {
+        state: state.chatReducer.chats,
+    };
+};
+
+
 function mapDispatchToProps(dispatch) {
     return {
         changeTitle: (title, chatId) => dispatch(changeTitle(title, chatId))
     };
 };
 
-export default connect(null, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
