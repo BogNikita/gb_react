@@ -29,7 +29,7 @@ const MessageFiled = (props) => {
     const state = {
         text: ''
     };
-    const [stateText, setText] = useState(state.text);
+    const [stateText, setText] = useState(state);
 
     const classes = useStyles();
 
@@ -37,26 +37,30 @@ const MessageFiled = (props) => {
         setText((prev) => ({...prev, [event.target.name]: event.target.value }));
     };
 
+    const submitMessage = (e) => {
+        e.preventDefault();
+        props.sendMessage(stateText.text, 'User');
+        setText({text: ''});
+    };   
+    
     const pressKey = (e) => {
         if (!e.shiftKey) {
-            props.sendMessage(stateText.text, 'User')
+            submitMessage(e)
             e.target.value = ''
         }
         
     };
 
-    const submitMessage = (e) => {
-        e.preventDefault();
-        props.sendMessage(stateText.text, 'User');
-        e.target.reset()
-    };   
-    
     const messageElements = props.state.chats[props.chatId].messageList.map((messageId, index) => {
-        return (<Message 
+        return (
+        <Message 
             key={index} 
-            text ={ props.messages[messageId].text || ''}
+            text ={ props.messages[messageId].text}
             author={ props.messages[messageId].author }
-            />)})
+            messageId={messageId}
+            chatId={props.chatId}
+            />)}
+        )
 
     return (
         <div style={{width: '80%', background: 'rgb(207, 232, 252)', minHeight: '90vh', display: 'flex', flexDirection: 'column'}}> 
@@ -64,7 +68,11 @@ const MessageFiled = (props) => {
                { messageElements }
             </div>
             <form className={classes.root} noValidate autoComplete="off" 
-                onSubmit={ e => submitMessage(e)} 
+                value={stateText}
+                onSubmit={ e => {
+                    submitMessage(e)
+                    e.target.reset()
+                }} 
                 onChange={ e => handleChange(e)}
                 onKeyUp={e => e.key === 'Enter' ? pressKey(e) : null}>
                 <div style={{display: 'flex', marginTop: '10px'}}>
@@ -95,6 +103,7 @@ const MessageFiled = (props) => {
 function mapStateToProps(state) {
     return {
        state: state.chatReducer,
+       messages: state.messagesReducer
    };
  };
  

@@ -1,11 +1,9 @@
-import { ADD_CHAT, CHANGE_TITLE, SEND_MESSAGE } from "./actionTypes";
+import { ADD_CHAT, CHANGE_TITLE, DELETE_CHAT, DELETE_MESSAGE, SEND_MESSAGE } from "./actionTypes";
 
-export function sendMessage(messageId, text, author, chatId) {
+export function sendMessage(messageId, chatId) {
     return {
         type: SEND_MESSAGE,
         messageId,
-        text,
-        author,
         chatId
     };
 };
@@ -22,5 +20,20 @@ export function changeTitle(title, chatId) {
         type: CHANGE_TITLE,
         title,
         chatId
+    };
+};
+
+export function deleteChat(chatId) {
+    return {
+        type: DELETE_CHAT,
+        chatId
+    };
+};
+
+export function deleteMessage(chatId, messageId) {
+    return {
+        type: DELETE_MESSAGE,
+        chatId,
+        messageId
     }
 }
