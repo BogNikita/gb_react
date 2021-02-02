@@ -5,7 +5,7 @@ import React from 'react';
     ?'flex-start'
     : 'flex-end' } }
     >
-        <div>{text}</div>
+        <div style = {{whiteSpace: 'pre-line', textAlign: 'end'}}>{text}</div>
         <div style={{fontSize: '12px', 
         alignSelf: author === 'bot' 
         ?'flex-start'

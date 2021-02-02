@@ -11,14 +11,14 @@ module.exports = {
     },
     output: {
         filename: 'app.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     devServer: {
         port: 3000,
         open: true,
-        historyApiFallback: {
-            index: 'index.html'
-        }
+        historyApiFallback: true,
+        
     },
     plugins: [
         new CleanWebpackPlugin(),

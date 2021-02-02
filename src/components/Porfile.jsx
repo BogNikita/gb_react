@@ -3,6 +3,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { changeTitle } from './store/actions/chats';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,9 +18,13 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const Profile = ({name}) => {
-
+const Profile = (props) => {
     const classes = useStyles();
+    
+    const changeTitleHandler = (e) => {
+        const title = e.target.value;
+        props.changeTitle(title, props.chatId)
+    }
 
     return (
         <div style={{width: '60%', background: 'rgb(207, 232, 252)', minHeight: '90vh', display: 'flex', flexDirection: 'column'}}>
@@ -30,13 +36,14 @@ const Profile = ({name}) => {
                     id="filled-full-width"
                     label="First name"
                     style={{ margin: 20 }}
-                    placeholder={`Bot #${name}`}
+                    placeholder={props.name}
                     fullWidth
                     margin="normal"
                     InputLabelProps={{
                         shrink: true,
                     }}
                     variant="filled"
+                    onChange={e => changeTitleHandler(e)}
                 />
                 <TextField
                     id="filled-full-width1"
@@ -67,6 +74,12 @@ const Profile = ({name}) => {
             </div>
         </div>
     )
-}
+};
 
-export default Profile;
+function mapDispatchToProps(dispatch) {
+    return {
+        changeTitle: (title, chatId) => dispatch(changeTitle(title, chatId))
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Profile);
