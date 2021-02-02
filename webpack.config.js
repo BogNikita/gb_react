@@ -15,7 +15,10 @@ module.exports = {
     },
     devServer: {
         port: 3000,
-        open: true
+        open: true,
+        historyApiFallback: {
+            index: 'index.html'
+        }
     },
     plugins: [
         new CleanWebpackPlugin(),
