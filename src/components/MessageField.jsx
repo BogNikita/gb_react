@@ -29,6 +29,7 @@ const MessageFiled = (props) => {
     const state = {
         text: ''
     };
+
     const [stateText, setText] = useState(state);
 
     const classes = useStyles();
@@ -103,7 +104,7 @@ const MessageFiled = (props) => {
 function mapStateToProps(state) {
     return {
        state: state.chatReducer,
-       messages: state.messagesReducer
+       messages: state.messagesReducer.messages
    };
  };
  

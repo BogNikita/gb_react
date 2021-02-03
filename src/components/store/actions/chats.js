@@ -1,4 +1,7 @@
-import { ADD_CHAT, CHANGE_TITLE, DELETE_CHAT, DELETE_MESSAGE, SEND_MESSAGE } from "./actionTypes";
+import { normalize } from "normalizr";
+import { getJSON, RSAA } from "redux-api-middleware";
+import { chats } from "../../schema/schemas";
+import { ADD_CHAT, CHANGE_TITLE, DELETE_CHAT, DELETE_MESSAGE, SEND_MESSAGE, START_CHATS_LOADING, SUCCESS_CHATS_LOADING, ERROR_CHATS_LOADING, BLINCK_CHAT } from "./actionTypes";
 
 export function sendMessage(messageId, chatId) {
     return {
@@ -35,5 +38,23 @@ export function deleteMessage(chatId, messageId) {
         type: DELETE_MESSAGE,
         chatId,
         messageId
-    }
-}
+    };
+};
+
+export function loadChats() {
+    return {
+        [RSAA]: {
+            endpoint: '/api/chats.json',
+            method: 'GET',
+            types: [
+                START_CHATS_LOADING, 
+                {
+                    type:SUCCESS_CHATS_LOADING,
+                    payload: (action, state, res) => getJSON(res)
+                    .then(json => normalize(json, [chats]))
+                },
+                ERROR_CHATS_LOADING
+            ]
+        }
+    };
+};

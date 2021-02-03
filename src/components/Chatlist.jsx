@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,17 +7,19 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import { addChat, deleteChat } from './store/actions/chats';
+import { deleteChat } from './store/actions/chats';
 import { connect } from 'react-redux';
 import {push} from 'connected-react-router';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import ButtonAddChat from './ButtonAddChat.jsx';
+import { loadMessage } from './store/actions/message.js';
+
+
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
-
+       
     },
     title: {
       margin: theme.spacing(0, 1, 2, 0),
@@ -34,7 +36,17 @@ const ChatList = (props) => {
     setSelectedIndex(index);
     };
 
-    const linkItem = Object.keys(props.chats).map(item => { 
+    const blink = (item) => {
+        console.log(item);
+        if (Object.keys(props.message).length > 0) {
+            if ((props.message[Object.keys(props.message).length].blink) && props.message[Object.keys(props.message).length].chatId === item) {
+                return 'blink'
+            }
+        };
+    };
+
+    const linkItem = Object.keys(props.chats).map(item => {
+        
         return(
         <div style={{display: 'flex', alignItems: 'center', paddingRight: 5}} key={item}>
             <ListItem button
@@ -50,32 +62,32 @@ const ChatList = (props) => {
                     </ListItemAvatar>
                     <ListItemText
                         primary={props.chats[item].title}
-                        className={props.message[props.message.length-1].blink && props.message[props.message.length-1].chatId === item ? 'blink' : null}
+                        className={blink(item)}
                     />
             </ListItem>
             <HighlightOffIcon style={{cursor: 'pointer'}} onClick={() => {
-                props.push('/');
-                props.deleteChat(item)}}/>
+                props.deleteChat(item)
+                let path = '/'
+                if(Object.keys(props.chats)[0]){
+                    path = `/chat/${Object.keys(props.chats)[0]}`
+                }
+                props.push(path);
+                }}/>
         </div>     
             )
         }
     );
 
     return(
-        <div className={classes.root} className='chat-list'>
+        <div className='chat-list'>
                 <Typography variant="h6" className={classes.title}>
                     Список контактов
                 </Typography>
                 <div className={classes.demo}>
                     <List component="nav"
-                        aria-labelledby="nested-list-subheader"
-                        className={classes.root}>
+                        aria-labelledby="nested-list-subheader">
                     {linkItem}
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: 5}}>
-                        <Fab color="inherit" aria-label="add" size="small" onClick={props.addChat}>
-                            <AddIcon />
-                        </Fab>
-                    </div>
+                    <ButtonAddChat/>
                     </List>
                 </div>
     </div>
@@ -85,15 +97,15 @@ const ChatList = (props) => {
  function mapStateToProps(state) {
     return {
         chats: state.chatReducer.chats,
-        message: state.messagesReducer
+        message: state.messagesReducer.messages,
     };
   };
   
   function mapDispatchToProps(dispatch) {
     return {
-      addChat: () => dispatch(addChat()),
       push: (link) => dispatch(push(link)),
-      deleteChat: (chatId) => dispatch(deleteChat(chatId))
+      deleteChat: (chatId) => dispatch(deleteChat(chatId)),
+      loadMessage: () => dispatch(loadMessage())
     };
   };
  
