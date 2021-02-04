@@ -1,0 +1,29 @@
+.message {
+    background-color: lightblue;
+    padding: 5px 20px;
+    border-radius: 20px;
+    font-size: 18px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+ }
+
+ .message svg{
+   position: absolute;
+   right: 0;
+   top: 30%;
+   cursor: pointer;
+   font-size: 14px;
+ }
+
+ .message-text {
+     display: block;
+     white-space: pre-line;
+     text-align: end;
+ }
+
+ .message-author {
+     display: block;
+     font-size: 12px;
+ }

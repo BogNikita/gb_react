@@ -1,0 +1,38 @@
+
+.link-item {
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+}
+
+.blink {
+    animation-name: blinker;
+    animation-iteration-count: 3;
+    animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+    animation-duration: 1s;
+  }
+   
+  @keyframes blinker {
+    from { opacity: 1.0; }
+    to { opacity: 0.0; }
+  }
+
+.link-item svg {
+    cursor: pointer;
+}
+
+
+@media(max-width: 980px) {
+  .chat-list {
+      width: 100%;
+      display: none;
+  }
+
+  .visibility {
+    display: block!important;
+  }
+  
+  .hide {
+    display: none!important;
+  }
+}

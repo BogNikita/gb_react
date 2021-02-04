@@ -3,8 +3,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { changeTitle } from './store/actions/chats';
+import { changeTitle } from '../store/actions/chats';
 import { connect } from 'react-redux';
+import classes from './profile.module.css'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,19 +20,19 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const Profile = (props) => {
-    const classes = useStyles();
-    
+    const classesMaterial = useStyles();
+
     const changeTitleHandler = (e) => {
         const title = e.target.value;
         props.changeTitle(title, props.chatId)
     };
 
     return (
-        <div style={{width: '60%', background: 'rgb(207, 232, 252)', minHeight: '90vh', display: 'flex', flexDirection: 'column'}}>
-            <div style={{alignSelf: 'center'}}>
+        <div className={classes.profile}>
+            <div>
                 <AccountCircleIcon style={{ fontSize: 240, color:'white' }} />
             </div>
-            <div className={classes.root}>
+            <div className={classesMaterial.root}>
                 <TextField
                     id="filled-full-width"
                     label="First name"

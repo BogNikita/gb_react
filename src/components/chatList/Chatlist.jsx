@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,39 +7,39 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { deleteChat } from './store/actions/chats';
+import { deleteChat } from '../store/actions/chats';
 import { connect } from 'react-redux';
 import {push} from 'connected-react-router';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import ButtonAddChat from './ButtonAddChat.jsx';
-import { loadMessage } from './store/actions/message.js';
+import ButtonAddChat from '../button/ButtonAddChat.jsx';
+import { loadMessage } from '../store/actions/message.js';
+import classes from './chatList.module.css';
 
 
-
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-       
-    },
-    title: {
-      margin: theme.spacing(0, 1, 2, 0),
-    },
-  }));
 
 
 const ChatList = (props) => {
 
-    const classes = useStyles();
     const [selectedIndex, setSelectedIndex] = React.useState(0);
 
     const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
     };
 
+    const cls = [
+        classes['chat-list']
+    ];
+
+    if (!props.isOpen) {
+        cls.push(classes.visibility)
+    } else {
+        cls.push(classes.hide)
+    }
+
     const blink = (item) => {
-        console.log(item);
-        if (Object.keys(props.message).length > 0) {
-            if ((props.message[Object.keys(props.message).length].blink) && props.message[Object.keys(props.message).length].chatId === item) {
+        const find = props.chats[item].messageList[props.chats[item].messageList.length - 1];
+        if (find + 1> 0) {
+            if ((props.message[find].blink)) {
                 return 'blink'
             }
         };
@@ -48,7 +48,7 @@ const ChatList = (props) => {
     const linkItem = Object.keys(props.chats).map(item => {
         
         return(
-        <div style={{display: 'flex', alignItems: 'center', paddingRight: 5}} key={item}>
+        <div className={classes['link-item']} key={item}>
             <ListItem button
                     selected={selectedIndex === item}
                     onClick={(event) => {
@@ -65,7 +65,7 @@ const ChatList = (props) => {
                         className={blink(item)}
                     />
             </ListItem>
-            <HighlightOffIcon style={{cursor: 'pointer'}} onClick={() => {
+            <HighlightOffIcon  onClick={() => {
                 props.deleteChat(item)
                 let path = '/'
                 if(Object.keys(props.chats)[0]){
@@ -79,17 +79,17 @@ const ChatList = (props) => {
     );
 
     return(
-        <div className='chat-list'>
-                <Typography variant="h6" className={classes.title}>
-                    Список контактов
-                </Typography>
-                <div className={classes.demo}>
-                    <List component="nav"
-                        aria-labelledby="nested-list-subheader">
-                    {linkItem}
-                    <ButtonAddChat/>
-                    </List>
-                </div>
+        <div className={cls.join(' ')}>
+            <Typography variant="h6">
+                Список контактов
+            </Typography>
+            <div >
+                <List component="nav"
+                    aria-labelledby="nested-list-subheader">
+                {linkItem}
+                <ButtonAddChat/>
+                </List>
+            </div>
     </div>
     )
 };
