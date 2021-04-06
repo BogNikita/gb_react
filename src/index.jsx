@@ -29,16 +29,27 @@ const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
     }) : compose;
 
-const store = createStore(persistReducer(persistConfig,rootReducer(history)), compose(applyMiddleware(routerMiddleware(history),...middlewares), composeEnhancers()));
-const persistor = persistStore(store);
+// const store = createStore(persistReducer(persistConfig,rootReducer(history)), compose(applyMiddleware(routerMiddleware(history),...middlewares), composeEnhancers()));
+// const persistor = persistStore(store);
+
+// ReactDom.render(
+//     <Provider store={store}>
+//         <PersistGate loading={null} persistor={persistor}>
+//             <ConnectedRouter history={history}>
+//                 <Router/>
+//             </ConnectedRouter>
+//         </PersistGate>
+//     </Provider>,
+//     document.getElementById('root')
+// );
+
+const store = createStore(rootReducer(history), compose(applyMiddleware(routerMiddleware(history),...middlewares), composeEnhancers()));
 
 ReactDom.render(
     <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
             <ConnectedRouter history={history}>
                 <Router/>
             </ConnectedRouter>
-        </PersistGate>
     </Provider>,
     
 

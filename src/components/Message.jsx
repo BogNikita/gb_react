@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
         <ClearIcon style={{fontSize:'smaller'}}
         onClick={() => {
             deleteMessage(chatId, messageId)
-            // deleteMessageFromLib(messageId)
+            deleteMessageFromLib(messageId)
         }}
         />
     </div>

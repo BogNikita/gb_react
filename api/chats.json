@@ -1,0 +1,63 @@
+[
+    {
+        "id": 1,
+        "title": "Games",
+        "messageList": [
+            {
+                "id": 1,
+                "chatId": 1,
+                "text": "Привет",
+                "author": "User",
+                "blink": false
+            },
+            {
+                "id": 2,
+                "chatId": 1,
+                "text": "Я робот",
+                "author": "bot",
+                "blink": false
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Trips",
+        "messageList": [
+            {
+                "id": 3,
+                "chatId": 2,
+                "text": "Здравствуйте!",
+                "author": "User",
+                "blink": false
+            },
+            {
+                "id": 4,
+                "chatId": 2,
+                "text": "Я робот",
+                "author": "bot",
+                "blink": false
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "title": "Business",
+        "messageList": [
+            {
+                "id": 5,
+                "chatId": 3,
+                "text": "Приветствую",
+                "author": "User",
+                "blink": false
+            },
+            {
+                "id": 6,
+                "chatId": 3,
+                "text": "Я робот",
+                "author": "bot",
+                "blink": false
+            }
+        ]
+    }
+ ]
+ 
