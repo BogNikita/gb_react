@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import Message from './Message.jsx';
+import Message from '../message/Message.jsx';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
 import SendIcon from '@material-ui/icons/Send';
 import { connect } from 'react-redux';
+import classes from './messageField.module.css'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,7 +32,7 @@ const MessageFiled = (props) => {
 
     const [stateText, setText] = useState(state);
 
-    const classes = useStyles();
+    const classesMaterial = useStyles();
 
     const handleChange = (event) => {
         setText((prev) => ({...prev, [event.target.name]: event.target.value }));
@@ -64,11 +64,11 @@ const MessageFiled = (props) => {
         )
 
     return (
-        <div style={{width: '80%', background: 'rgb(207, 232, 252)', minHeight: '90vh', display: 'flex', flexDirection: 'column'}}> 
-            <div style={{flex: '1 0 auto', display: 'flex', flexDirection: 'column'}}>
+        <div className={classes['message-field']}> 
+            <div >
                { messageElements }
             </div>
-            <form className={classes.root} noValidate autoComplete="off" 
+            <form className={classesMaterial.root} noValidate autoComplete="off" 
                 value={stateText}
                 onSubmit={ e => {
                     submitMessage(e)
@@ -86,10 +86,10 @@ const MessageFiled = (props) => {
                     /> 
                     <Button
                         size="small" 
-                        className={classes.margin}
+                        className={classesMaterial.margin}
                         variant="contained"
                         color="primary"
-                        className={classes.button}
+                        className={classesMaterial.button}
                         endIcon={<SendIcon/>}
                         type="submit"
                     >
